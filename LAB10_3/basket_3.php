@@ -15,6 +15,11 @@
             unset($_SESSION[$prodotto]);
         }
     }
+    if(isset($_SESSION["contatore"])){
+        ++$_SESSION["contatore"];
+    }else{
+        $_SESSION["contatore"] = 1;
+    }
 ?>
 <!doctype html>
 <html lang="it">
@@ -39,6 +44,7 @@
                         <th>Prezzo totale per prodotto</th>
                     </tr>
                     <?php
+                        printf("<p>Hai visitato un totale di %d pagine</p>", $_SESSION["contatore"]);
                         $prezzi = array("cd" => 0.5 , "dvd" => 1 , "sd" => 7.5 , "usb" => 5);
                         $nomi = array("cd" => "CD" , "dvd" => "DVD" , "sd" => "Memoria SD" , "usb" => "Memoria USB");
                         
@@ -46,7 +52,8 @@
                         $tot = 0;
 
                         foreach($_SESSION as $key => $value) {
-                            if( $value > 0 ) {
+                            //qui controllo che non sia proprio la variabile contatore, in modo da non inserirla nella tabella
+                            if ($key !== "contatore" && isset($prezzi[$key]) && $value > 0) {
                                 ++$items;
                                 $tot += $prezzi[$key] * $value;
                                 echo "<tr>\n<td>{$nomi[$key]}</td>\n<td>{$prezzi[$key]}&euro;</td>\n<td>{$value}</td>\n<td>" . ($prezzi[$key] * $value) . "&euro;</td>\n</tr>\n";

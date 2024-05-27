@@ -15,7 +15,13 @@ elseif( session_status() !== PHP_SESSION_ACTIVE )
         $_SESSION["sd"] = 0;
     if( !isset($_SESSION["usb"]) )
         $_SESSION["usb"] = 0;
+    
 }
+    if(!isset($_SESSION["contatore"]))
+        $_SESSION["contatore"] = 1 ;
+    else{
+        ++$_SESSION["contatore"];
+    }
 ?>
 <!doctype html>
 <html lang="it">
@@ -51,7 +57,8 @@ elseif( session_status() !== PHP_SESSION_ACTIVE )
         ?>     
         <h1>Pagina acquisto beni</h1>
                 <?php
-					$nome = "";			
+					$nome = "";	
+                    printf("<p>Hai visitato un totale di %d pagine</p>", $_SESSION["contatore"]);	
 					if((isset($_REQUEST['ncd'])) && (isset($_REQUEST['cd'])))
 					{
 						$nome = "cd";
